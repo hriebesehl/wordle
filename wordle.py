@@ -2,6 +2,7 @@ import fnmatch
 import string
 import random
 
+
 class WordleSolver:
     def __init__(self) -> None:
         with open("words.txt") as f:
@@ -49,15 +50,14 @@ class WordleSolver:
             else:
                 raise Exception("Word list is empty!")
 
-        print(f"{len(self.word_list)} possible words.")
-        print(f"Try '{guess}'. Alternate words: {self.word_list[1:6]}")
-
         return guess
 
     def get_user_result(self, guess):
         while True:
             try:
-                result = input(f"Guessed '{guess}'. What was result? (b=black, y=yellow, g=green, w=win, c=change word): ")
+                result = input(
+                    f"Guessed '{guess}'. What was result? (b=black, y=yellow, g=green, w=win, c=change word): "
+                )
             except (EOFError, KeyboardInterrupt):
                 print("\n")
                 exit("Quitting")
@@ -108,18 +108,18 @@ class WordleSolver:
                 self.glob[i] = letter
             elif feedbk_ltr == "y":
                 # letter is present in wordle, but not at this position
-                self.glob[i].remove(letter)
+                if isinstance(self.glob[i], set):
+                    self.glob[i].remove(letter)
                 self.include.add(letter)  # include this letter for filtering
             elif feedbk_ltr == "b":
                 # letter not present in wordle, remove from all positions
                 for g in self.glob:
-                    if not isinstance(
-                        g, str
-                    ):  # do not operate if we've already found this letter
+                    if isinstance(g, set):
+                        # do not operate if we've already found this letter
                         g.discard(letter)
 
         print(f"glob = '{self.pprint_glob()}'")
-        print(f"{self.include = }")
+        print(f"must include {sorted(self.include)}")
 
     def play(self):
         for i in range(6):
@@ -127,6 +127,9 @@ class WordleSolver:
                 print("last guess! :o")
 
             guess = self.generate_guess(i)
+            print(f"{len(self.word_list)} possible words.")
+            print(f"Try '{guess}'. Alternate words: {self.word_list[1:6]}")
+
             self.process_feedback(guess)
 
             if self.solved:
@@ -134,7 +137,8 @@ class WordleSolver:
                 return
 
         # loss, too many guesses
-        print(f"Loss :(. Top remaining words: {self.word_list[:5]}")
+        self.generate_guess()  # process last feedback
+        print(f"Loss :(. {len(self.word_list)} remaining words: {self.word_list[:10]}")
 
 
 if __name__ == "__main__":
