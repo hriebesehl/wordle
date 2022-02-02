@@ -138,7 +138,8 @@ class WordleSolver:
 
         # loss, too many guesses
         self.generate_guess(i)  # process last feedback
-        print(f"Loss :( {len(self.word_list)} remaining words: {self.word_list[:10]}")
+        print(f"Loss :(")
+        print(f"{len(self.word_list)} remaining words: {self.word_list[:10]}")
 
 
 if __name__ == "__main__":
