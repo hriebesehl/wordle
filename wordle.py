@@ -1,6 +1,7 @@
 import fnmatch
 import string
 import random
+from wordfreq import word_frequency
 
 
 class WordleSolver:
@@ -42,10 +43,10 @@ class WordleSolver:
                 if all(letter in word for letter in self.include)
             )
 
-            # guess first word from remaining list
+            # Rank remaining words in list
             if self.word_list:
-                # return guess of word with most distinct letters
-                self.word_list.sort(key=lambda word: len(set(list(word))), reverse=True)
+                # sort by descending count of disctinct letters, then descending by frequency of word
+                self.word_list.sort(key=lambda word: (len(set(list(word))), word_frequency(word, 'en')), reverse=True)
                 guess = self.word_list[0]
             else:
                 raise Exception("Word list is empty!")
@@ -112,9 +113,10 @@ class WordleSolver:
                     self.glob[i].remove(letter)
                 self.include.add(letter)  # include this letter for filtering
             elif feedbk_ltr == "b":
-                # letter not present in wordle, remove from all positions
+                # letter not present in wordle, remove from all positions if
+                # not already in include list (duplicate letter)
                 for g in self.glob:
-                    if isinstance(g, set):
+                    if isinstance(g, set) and letter not in self.include:
                         # do not operate if we've already found this letter
                         g.discard(letter)
 
