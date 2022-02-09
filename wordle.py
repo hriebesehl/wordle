@@ -29,7 +29,7 @@ class WordleSolver:
 
         # first run, get random starter from top of list
         if guess_num == 0:
-            guess = self.word_list[random.randint(0, 11)]
+            guess = self.word_list[random.randint(0, 12)]
 
         # else filter from word list
         else:

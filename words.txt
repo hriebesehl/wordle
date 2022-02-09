@@ -8,6 +8,7 @@ arose
 raise
 irate
 later
+crane
 arise
 adieu
 linty
@@ -2376,7 +2377,6 @@ crake
 crame
 cramp
 crams
-crane
 crank
 crans
 crape
