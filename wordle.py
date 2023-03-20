@@ -45,7 +45,7 @@ class WordleSolver:
 
             # Rank remaining words in list
             if self.word_list:
-                # sort by descending count of disctinct letters, then descending by frequency of word
+                # sort by descending count of distinct letters, then descending by frequency of word
                 self.word_list.sort(key=lambda word: (len(set(list(word))), word_frequency(word, 'en')), reverse=True)
                 guess = self.word_list[0]
             else:
@@ -58,9 +58,9 @@ class WordleSolver:
             try:
                 result = input(
                     f"Guessed '{guess}'. What was result? (b=black, y=yellow, g=green, w=win, c=change word): "
-                )
+                ).strip()
             except (EOFError, KeyboardInterrupt):
-                print("\n")
+                print("\n", end="")
                 exit("Quitting")
 
             # user won
@@ -71,7 +71,7 @@ class WordleSolver:
             elif result == "c":
                 while True:
                     try:
-                        new_guess = input("What was alternate word entered?: ")
+                        new_guess = input("What was alternate word entered?: ").strip()
                     except (EOFError, KeyboardInterrupt):
                         break
 
@@ -81,7 +81,7 @@ class WordleSolver:
                         print("invalid input. Try again.")
                     else:
                         guess = new_guess
-                        print(f"caputured new guess '{guess}'. Enter result.")
+                        print(f"captured new guess '{guess}'. Enter result.")
                         break
 
             # process normal green/black/yellow feedback
@@ -101,7 +101,7 @@ class WordleSolver:
             self.solved = True
             return
 
-        # process feeback
+        # process feedback
         for i, feedbk_ltr in enumerate(result):
             letter = guess[i]
             if feedbk_ltr == "g":
@@ -153,11 +153,13 @@ if __name__ == "__main__":
         while True:
             try:
                 i = input("Play again? (y/n): ")
-                print("\n")
+                print("\n", end="")
             except (EOFError, KeyboardInterrupt):
+                print("\n", end="")
                 exit("Quitting")
 
             if i == "y":
                 break
             else:
+                print("\n", end="")
                 exit("Quitting")
