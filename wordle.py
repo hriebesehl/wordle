@@ -152,7 +152,7 @@ if __name__ == "__main__":
 
         while True:
             try:
-                i = input("Play again? (y/n): ")
+                i = input("Play again? (y/n): ").strip()
                 print("\n", end="")
             except (EOFError, KeyboardInterrupt):
                 print("\n", end="")
